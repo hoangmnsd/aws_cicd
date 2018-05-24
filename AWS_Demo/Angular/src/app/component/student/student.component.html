@@ -1,0 +1,186 @@
+<div class="row">
+    <div class="col-lg-8">
+        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#AddModal" (click)='ClickAdd()'>
+            Add New
+        </button>
+    </div>
+    <!-- Search bar -->
+    <div class="col-lg-4">
+        <div class="form-group">
+            <div class="d-flex flex-row-reverse">
+                <span class="input-group-btn">
+                    <button class="btn btn-outline-primary" type="submit" (click)="search(searchBy.value, searchKey.value)">Search</button>
+                </span>
+                <input #searchKey type="text" class="form-control" placeholder="Search..." value="">
+                <select #searchBy class="form-control">
+                    <option selected="selected" value="0">Name</option>
+                    <option value="1">DateOfBird</option>
+                    <option value="2">Address</option>
+                    <option value="3">Toan</option>
+                    <option value="4">Ly</option>
+                    <option value="5">Hoa</option>
+                    <option value="6">Avarage</option>
+                    <option value="7">Rank</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table" sortable-table (sorted)="onSorted($event)" class="table table-filter table-fixed">
+    <thead class="thead-light">
+        <th scope="col">No</th>
+        <th sortable-column="Name" sort-direction="asc">Name</th>
+        <th sortable-column="DateOfBird">DateOfBird</th>
+        <th sortable-column="Address">Address</th>
+        <th sortable-column="Toan">Toan</th>
+        <th sortable-column="Ly">Ly</th>
+        <th sortable-column="Hoa">Hoa</th>
+        <th sortable-column="Avarage">Avarage</th>
+        <th sortable-column="Rank">Rank</th>
+        <th scope="col">Option</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let st of pageItems;let i = index" class="table-light">
+            <td>{{i+1}}</td>
+            <td>{{st.Name}}</td>
+            <td>{{st.DateOfBird}}</td>
+            <td>{{st.Address}}</td>
+            <td>{{st.Toan}}</td>
+            <td>{{st.Ly}}</td>
+            <td>{{st.Hoa}}</td>
+            <td>{{st.Avarage}}</td>
+            <td>{{st.Rank}}</td>
+            <td>
+                <button (click)='Edit(st.UserId)' class="btn btn-outline-primary" data-toggle="modal" data-target="#EditModal">Edit</button>
+                <button (click)='Delete(st.UserId)' class="btn btn-outline-danger">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<div class="main-pagi">
+    <div class="fixer-pagi">
+        <app-pagination [index]="index" [pageSize]="pageSize" [totalItems]="count" (pageChange)="onPageChanged($event)">
+        </app-pagination>
+    </div>
+</div>
+
+<!-- Add -->
+<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="AddModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:darkslateblue">
+                <h5 class="modal-title" id="AddModalLabel" style="color:white">
+                    Add New Student
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class='form' #f='ngForm' (ngSubmit)='AddSaveForm()'>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name='name' [(ngModel)]='Student_Add.Name'>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">DateOfBird</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name='dateofbird' [(ngModel)]='Student_Add.DateOfBird'>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Address</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name='address' [(ngModel)]='Student_Add.Address'>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Toan</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name='toan' [(ngModel)]='Student_Add.Toan' min="0" max="10" maxlength="2">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Ly</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name='ly' [(ngModel)]='Student_Add.Ly' min="0" max="10" maxlength="2">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Hoa</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name='hoa' [(ngModel)]='Student_Add.Hoa' min="0" max="10" maxlength="2">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary float-left">Add</button>
+                    <button type="button" class="btn btn-outline-danger float-right" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:darkslateblue">
+                <h5 class="modal-title" id="EditModalLabel" style="color:white">
+                    Edit Student
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class='form' #f='ngForm' (ngSubmit)='EditSaveForm()'>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name='name' [(ngModel)]='Student_Edit.Name'>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">DateOfBird</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name='dateofbird' [(ngModel)]='Student_Edit.DateOfBird'>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Address</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name='address' [(ngModel)]='Student_Edit.Address'>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Toan</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name='toan' [(ngModel)]='Student_Edit.Toan' min="0" max="10" maxlength="2">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Ly</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name='ly' [(ngModel)]='Student_Edit.Ly' min="0" max="10" maxlength="2">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Hoa</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name='hoa' [(ngModel)]='Student_Edit.Hoa' min="0" max="10" maxlength="2">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary float-left">Edit</button>
+                    <button type="button" class="btn btn-outline-danger float-right" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+{
+  "name": "ALMRestAPI",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "ALM",
+  "license": "FPT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "express-jwt": "^5.3.1",
+    "mysql": "^2.14.0"
+  }
+}
