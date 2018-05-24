@@ -1,0 +1,15 @@
+.main-pagi {
+    font-size: 110%;
+    float: left;
+    position: relative;
+    left: 50%;
+  }
+.fixer-pagi {
+    font-size: 110%;
+    float: left;
+    position: relative;
+    left: -50%;
+}
+th[sortable-column] {
+    cursor: pointer;
+}
