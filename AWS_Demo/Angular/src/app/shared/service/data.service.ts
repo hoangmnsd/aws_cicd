@@ -10,7 +10,11 @@ export class DataService {
     private actionUrl: string;
 
     constructor(private _http: Http) {
-        this.actionUrl = 'http://18.207.184.53:3000/api/';
+        const hostname = window.location.hostname;
+        const protocol = 'http://';
+        const port = '3000';
+        const API = '/api/';
+        this.actionUrl = protocol + hostname + ':' + port + API;
     }
     // GetAll
     GetAll(ns: string): Observable<any> {

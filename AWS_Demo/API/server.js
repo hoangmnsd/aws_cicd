@@ -22,7 +22,7 @@ app.use('/api/searchstudent', router_searchstudent);
 
 // http://localhost:3000/
 var server = app.listen(3000, '0.0.0.0', function () {
-  console.log('Server listening, open your browser on http://localhost:' + server.address().port);
+  console.log('Server listening, open your browser on http://' + server.address().address + ':' + server.address().port);
 });
 
 module.exports = app;
